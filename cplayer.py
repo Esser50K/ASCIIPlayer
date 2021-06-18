@@ -4,7 +4,12 @@ import cv2
 import curses
 import argparse
 import time
-from functools import lru_cache
+
+import pyximport
+pyximport.install()
+
+from painter import paint_screen
+
 
 parser = argparse.ArgumentParser(description='ASCII Player')
 parser.add_argument("--width", type=int, default = 120, help="width of the terminal window")
@@ -12,14 +17,7 @@ parser.add_argument("--fps", type=int, default = 30, help="width of the terminal
 parser.add_argument("--show", type=bool, default = False, help="width of the terminal window")
 parser.add_argument("video", type=str, help="path to video")
 args = parser.parse_args()
-
 width = args.width
-characters = [' ', '.', ',', '-', '~', ':', ';', '=', '!', '*', '#', '$', '@']
-char_range = int(255 / len(characters))
-
-@lru_cache
-def get_char(val):
-    return characters[min(int(val/char_range), len(characters)-1)]
 
 try:
     if not os.path.isfile(args.video):
@@ -52,12 +50,7 @@ try:
             cv2.imshow("frame", orig_frame)
             cv2.waitKey(1)
 
-        for y in range(0, frame.shape[0]):
-            for x in range(0, frame.shape[1]):
-                try:
-                    window.addch(y, x, get_char(frame[y, x]))
-                except (curses.error):
-                    pass
+        paint_screen(window, frame, width, height)
 
         elapsed = (time.perf_counter_ns()//1000000) - start
         supposed_frame_count = frames_per_ms * elapsed
