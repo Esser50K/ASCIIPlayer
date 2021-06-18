@@ -4,6 +4,7 @@ import cv2
 import curses
 import argparse
 import time
+from functools import lru_cache
 
 parser = argparse.ArgumentParser(description='ASCII Player')
 parser.add_argument("--width", type=int, default = 120, help="width of the terminal window")
@@ -14,11 +15,11 @@ args = parser.parse_args()
 
 width = args.width
 characters = [' ', '.', ',', '-', '~', ':', ';', '=', '!', '*', '#', '$', '@']
+char_range = int(255 / len(characters))
 
+@lru_cache
 def get_char(val):
-    range = int(255 / len(characters))
-    return characters[min(int(val/range), len(characters)-1)]
-
+    return characters[min(int(val/char_range), len(characters)-1)]
 
 try:
     if not os.path.isfile(args.video):
@@ -37,13 +38,13 @@ try:
     curses.initscr()
     window = curses.newwin(height, width, 0, 0)
 
+    prev_frame = [characters[0] for _ in range(width*height)]
     frame_count = 0
     frames_per_ms = args.fps/1000
     start = time.perf_counter_ns()//1000000
     while True:
         ok, orig_frame = video.read()
         if not ok:
-            print("done capturing.")
             break
 
         frame = cv2.resize(orig_frame, (width, height))
@@ -55,7 +56,9 @@ try:
         for y in range(0, frame.shape[0]):
             for x in range(0, frame.shape[1]):
                 try:
-                    window.addch(y, x, get_char(frame[y, x]))
+                    char = get_char(frame[y, x])
+                    
+                    window.addch(y, x, char)
                 except (curses.error):
                     pass
 
