@@ -9,12 +9,15 @@ from functools import lru_cache
 parser = argparse.ArgumentParser(description='ASCII Player')
 parser.add_argument("--width", type=int, default = 120, help="width of the terminal window")
 parser.add_argument("--fps", type=int, default = 30, help="width of the terminal window")
-parser.add_argument("--show", type=bool, default = False, help="width of the terminal window")
+parser.add_argument("--show", type=bool, default = False, help="show the original video in an opencv window")
+parser.add_argument("--inv", type=bool, default = False, help="invert the shades")
 parser.add_argument("video", type=str, help="path to video")
 args = parser.parse_args()
 
 width = args.width
 characters = [' ', '.', ',', '-', '~', ':', ';', '=', '!', '*', '#', '$', '@']
+if args.inv:
+    characters = characters[::-1]
 char_range = int(255 / len(characters))
 
 @lru_cache

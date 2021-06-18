@@ -4,6 +4,10 @@ from functools import lru_cache
 characters = [' ', '.', ',', '-', '~', ':', ';', '=', '!', '*', '#', '$', '@']
 char_range = int(255 / len(characters))
 
+def invert_chars():
+    global characters
+    characters = characters[::-1]
+
 @lru_cache
 def get_char(val):
     return characters[min(int(val/char_range), len(characters)-1)]

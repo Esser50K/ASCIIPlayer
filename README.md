@@ -20,6 +20,10 @@ The player uses 120 characters as default width. This can be changed using the `
 
 The default framerate is 30 fps. This can also be changed using the `--fps` flag. If it's set too high it will just go as fast as it can.
 
+You can choose to display the original video with `opencv` with `--show true`
+
+You can also choose to invert the shades of the ascii video with `--inv true`
+
 ## Cython Version Usage
 
 The regular python version is already pretty efficient even for larger screens, but cython can go even faster!

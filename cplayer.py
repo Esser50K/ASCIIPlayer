@@ -8,16 +8,21 @@ import time
 import pyximport
 pyximport.install()
 
-from painter import paint_screen
+from painter import paint_screen, invert_chars
 
 
 parser = argparse.ArgumentParser(description='ASCII Player')
 parser.add_argument("--width", type=int, default = 120, help="width of the terminal window")
 parser.add_argument("--fps", type=int, default = 30, help="width of the terminal window")
-parser.add_argument("--show", type=bool, default = False, help="width of the terminal window")
+parser.add_argument("--show", type=bool, default = False, help="show the original video in an opencv window")
+parser.add_argument("--inv", type=bool, default = False, help="invert the shades")
 parser.add_argument("video", type=str, help="path to video")
 args = parser.parse_args()
 width = args.width
+
+if args.inv:
+    invert_chars()
+
 
 try:
     if not os.path.isfile(args.video):
