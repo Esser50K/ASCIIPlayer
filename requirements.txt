@@ -1,0 +1,3 @@
+cython
+argparse
+opencv-python
