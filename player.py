@@ -1,5 +1,4 @@
 import os
-import sys
 import cv2
 import curses
 import argparse
@@ -11,8 +10,14 @@ parser.add_argument("--width", type=int, default = 120, help="width of the termi
 parser.add_argument("--fps", type=int, default = 30, help="width of the terminal window")
 parser.add_argument("--show", type=bool, default = False, help="show the original video in an opencv window")
 parser.add_argument("--inv", type=bool, default = False, help="invert the shades")
-parser.add_argument("video", type=str, help="path to video")
+parser.add_argument("video", type=str, help="path to video or webcam index")
 args = parser.parse_args()
+
+video = args.video
+try:
+    video = int(video)
+except ValueError:
+    pass
 
 width = args.width
 characters = [' ', '.', ',', '-', '~', ':', ';', '=', '!', '*', '#', '$', '@']
@@ -25,10 +30,10 @@ def get_char(val):
     return characters[min(int(val/char_range), len(characters)-1)]
 
 try:
-    if not os.path.isfile(args.video):
+    if type(video) is str and not os.path.isfile(video):
         print("failed to find video at:", args.video)
 
-    video = cv2.VideoCapture(args.video)
+    video = cv2.VideoCapture(video)
     ok, frame = video.read()
     if not ok:
         print("could not extract frame from video")
