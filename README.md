@@ -17,7 +17,7 @@ A good example are high contrast videos like `bad apple`, you can download it fr
 After having a file you can play it like this:
 
 ```
-python3 player.py <video>
+python3 player.py <video or video input device index>
 ```
 
 The player uses 120 characters as default width. This can be changed using the `--width` flag. The height is calculated to preserve the aspect ratio.
@@ -27,6 +27,10 @@ The default framerate is 30 fps. This can also be changed using the `--fps` flag
 You can choose to display the original video with `opencv` with `--show true`
 
 You can also choose to invert the shades of the ascii video with `--inv true`
+
+### Webcam Usage
+
+To use your webcam as video source simply specify the video input device index, most likely it is `0` unless you have multiple ones in which case  you  can just bruteforce your way through until you find it.
 
 ## Cython Version Usage
 
