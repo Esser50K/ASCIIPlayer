@@ -8,6 +8,10 @@ There are 2 versions, one is plain python the other ones uses cython optimizatio
 
 A good example are high contrast videos like `bad apple`, you can download it from youtube with `youtube-dl` from [here](https://www.youtube.com/watch?v=FtutLA63Cp8)
 
+## Youtube Explanation
+
+I made a [youtube video](https://www.youtube.com/watch?v=ASJ3iY0-qpQ&ab_channel=Esser50K) explaining how the general process of converting videos to ascii
+
 ## Install dependencies
 
 `pip3 install -r requirements.txt`
