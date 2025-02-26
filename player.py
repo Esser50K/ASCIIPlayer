@@ -46,7 +46,7 @@ try:
 
     ratio = width / frame.shape[1]
     # charachter height is 2 times character width
-    height = int(frame.shape[0] * ratio * 3.5)
+    height = int(frame.shape[0] * ratio * 3 / 5)
     print(frame.shape)
     print(width, height, ratio)
 
