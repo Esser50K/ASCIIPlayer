@@ -47,3 +47,23 @@ Then compile the cython code: `cython -3 painter.pyx`. This will generate the `p
 Now you can run the `cplayer.py` the same way as the other player.
 
 You can try maxing out the framerate, in the end the average fps will be printed and you can see the difference there.
+
+## Running on a raspberrypi
+
+For best results run on a raspberrypi5 with the cython version as that gets the best framerate at higher resolutions.
+
+### Install dependencies
+
+Install the `Picamera2` and `opencv` dependencies via apt:
+
+```
+sudo apt install python3-opencv python3-picamera2
+```
+
+Create a virtual environment that still has access to the system packages an install the remaining dependencies:
+
+```
+python3 -m venv .venv --system-site-packages
+source .venv/bin/activate
+pip3 install -r requirements_rpi.txt
+```
