@@ -8,7 +8,7 @@ import argparse
 import pyximport
 pyximport.install()
 
-from painter import paint_screen, invert_chars
+from painter import paint_screen, paint_embedding, invert_chars
 from picamera2 import Picamera2
 
 parser = argparse.ArgumentParser(description='ASCII Player for Raspberry Pi')
@@ -18,11 +18,20 @@ parser.add_argument("--fps", type=int, default=30, help="Frames per second")
 parser.add_argument("--show", action="store_true",
                     help="Show the original video in an OpenCV window")
 parser.add_argument("--inv", action="store_true", help="Invert the shades")
+parser.add_argument("--embed", type=str, default="",
+                    help="pass a txt file to embed as watermark")
+
 args = parser.parse_args()
 
 width = args.width
 if args.inv:
     invert_chars()
+
+embedding = ""
+if args.embed != "":
+    with open(args.embed, "r") as f:
+        embedding = f.read()
+embed_height = len(embedding.split("\n"))
 
 # Initialize Picamera2
 picam2 = Picamera2()
@@ -67,6 +76,7 @@ try:
             cv2.waitKey(1)
 
         paint_screen(window, frame, width, height)
+        paint_embedding(window, embedding.encode(), embed_height, width, height)
 
         elapsed = (time.perf_counter_ns() // 1000000) - start
         supposed_frame_count = frames_per_ms * elapsed

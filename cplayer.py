@@ -7,7 +7,7 @@ import time
 import pyximport
 pyximport.install()
 
-from painter import paint_screen, invert_chars
+from painter import paint_screen, paint_embedding, invert_chars
 
 
 parser = argparse.ArgumentParser(description='ASCII Player')
@@ -19,6 +19,8 @@ parser.add_argument("--show", type=bool, default=False,
                     help="show the original video in an opencv window")
 parser.add_argument("--inv", type=bool, default=False,
                     help="invert the shades")
+parser.add_argument("--embed", type=str, default="",
+                    help="pass a txt file to embed as watermark")
 parser.add_argument("video", type=str, help="path to video or webcam index")
 args = parser.parse_args()
 width = args.width
@@ -32,6 +34,16 @@ try:
 except ValueError:
     pass
 
+embedding = ""
+if args.embed != "":
+    with open(args.embed, "r") as f:
+        embedding = f.read()
+embed_height = len(embedding.split("\n"))
+
+frame_count = 0
+frames_per_ms = args.fps / 1000
+start = time.perf_counter_ns() // 1000000
+
 try:
     if type(video) is str and not os.path.isfile(video):
         print("failed to find video at:", args.video)
@@ -42,7 +54,7 @@ try:
         print("could not extract frame from video")
 
     ratio = width / frame.shape[1]
-    # charachter height is 3/5 times character width
+    # character height is 3/5 times character width
     height = int(frame.shape[0] * ratio * (3.0 / 5))
     print(frame.shape)
     print(width, height, ratio)
@@ -50,9 +62,6 @@ try:
     curses.initscr()
     window = curses.newwin(height, width, 0, 0)
 
-    frame_count = 0
-    frames_per_ms = args.fps / 1000
-    start = time.perf_counter_ns() // 1000000
     while True:
         ok, orig_frame = video.read()
         if not ok:
@@ -65,6 +74,7 @@ try:
             cv2.waitKey(1)
 
         paint_screen(window, frame, width, height)
+        paint_embedding(window, embedding.encode(), embed_height, width, height)
 
         elapsed = (time.perf_counter_ns() // 1000000) - start
         supposed_frame_count = frames_per_ms * elapsed

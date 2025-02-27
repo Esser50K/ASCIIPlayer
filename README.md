@@ -67,3 +67,13 @@ python3 -m venv .venv --system-site-packages
 source .venv/bin/activate
 pip3 install -r requirements_rpi.txt
 ```
+
+### Embed Watermark
+
+You can embed a txt file as watermark with the `--embed` flag. It will be printed on the right bottom of the screen.
+
+As an examlpe I added a QR code that points to my [youtube channel](https://www.youtube.com/@esser50k)
+
+```
+python3 cplayer.py --width 350 --embed esser50k_yt.txt 0
+```
