@@ -3,12 +3,12 @@ import cv2
 import curses
 import argparse
 import time
+import youtube_utils
 
 import pyximport
 pyximport.install()
 
 from painter import paint_screen, paint_embedding, invert_chars
-
 
 parser = argparse.ArgumentParser(description='ASCII Player')
 parser.add_argument("--width", type=int, default=120,
@@ -45,8 +45,13 @@ frames_per_ms = args.fps / 1000
 start = time.perf_counter_ns() // 1000000
 
 try:
-    if type(video) is str and not os.path.isfile(video):
+    if type(video) is str \
+       and not os.path.isfile(video) \
+       and not youtube_utils.is_youtube_url(video):
         print("failed to find video at:", args.video)
+
+    if youtube_utils.is_youtube_url(video):
+        video = youtube_utils.get_youtube_video_url(video)
 
     video = cv2.VideoCapture(video)
     ok, frame = video.read()
@@ -74,7 +79,8 @@ try:
             cv2.waitKey(1)
 
         paint_screen(window, frame, width, height)
-        paint_embedding(window, embedding.encode(), embed_height, width, height)
+        paint_embedding(window, embedding.encode(),
+                        embed_height, width, height)
 
         elapsed = (time.perf_counter_ns() // 1000000) - start
         supposed_frame_count = frames_per_ms * elapsed

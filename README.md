@@ -6,7 +6,7 @@ This player plays video on a terminal using ascii characters
 
 There are 2 versions, one is plain python the other ones uses cython optimizations.
 
-A good example are high contrast videos like `bad apple`, you can download it from youtube with `youtube-dl` from [here](https://www.youtube.com/watch?v=FtutLA63Cp8)
+A good example are high contrast videos like `bad apple`, you can download it from youtube with `youtube-dl` from [here](https://www.youtube.com/watch?v=FtutLA63Cp8) or just use the url directly in the command line and the player will stream it to your terminal.
 
 ## Youtube Explanation
 
@@ -21,7 +21,7 @@ I made a [youtube video](https://www.youtube.com/watch?v=ASJ3iY0-qpQ&ab_channel=
 After having a file you can play it like this:
 
 ```
-python3 player.py <video or video input device index>
+python3 player.py <path_to_video or youtube_video_url or video_input_device_index>
 ```
 
 The player uses 120 characters as default width. This can be changed using the `--width` flag. The height is calculated to preserve the aspect ratio.

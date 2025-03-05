@@ -3,6 +3,7 @@ import cv2
 import curses
 import argparse
 import time
+import youtube_utils
 from functools import lru_cache
 
 parser = argparse.ArgumentParser(description='ASCII Player')
@@ -36,8 +37,13 @@ def get_char(val):
 
 
 try:
-    if type(video) is str and not os.path.isfile(video):
+    if type(video) is str \
+       and not os.path.isfile(video) \
+       and not youtube_utils.is_youtube_url(video):
         print("failed to find video at:", args.video)
+
+    if youtube_utils.is_youtube_url(video):
+        video = youtube_utils.get_youtube_video_url(video)
 
     video = cv2.VideoCapture(video)
     ok, frame = video.read()

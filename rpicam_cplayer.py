@@ -76,7 +76,8 @@ try:
             cv2.waitKey(1)
 
         paint_screen(window, frame, width, height)
-        paint_embedding(window, embedding.encode(), embed_height, width, height)
+        paint_embedding(window, embedding.encode(),
+                        embed_height, width, height)
 
         elapsed = (time.perf_counter_ns() // 1000000) - start
         supposed_frame_count = frames_per_ms * elapsed
