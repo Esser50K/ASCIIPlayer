@@ -32,6 +32,8 @@ You can choose to display the original video with `opencv` with `--show true`
 
 You can also choose to invert the shades of the ascii video with `--inv true`
 
+You can also choose to use actual colors with `--color true`. You might need to `reset` the terminal afterwards since it overrides default colors.
+
 ### Webcam Usage
 
 To use your webcam as video source simply specify the video input device index, most likely it is `0` unless you have multiple ones in which case  you  can just bruteforce your way through until you find it.
