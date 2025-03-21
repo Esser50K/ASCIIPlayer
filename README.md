@@ -12,6 +12,8 @@ A good example are high contrast videos like `bad apple`, you can download it fr
 
 I made a [youtube video](https://www.youtube.com/watch?v=ASJ3iY0-qpQ&ab_channel=Esser50K) explaining how the general process of converting videos to ascii
 
+And [another video](https://youtu.be/i9Zj2qN0uJ8) on how it was ported for the raspberryPi.
+
 ## Install dependencies
 
 `pip3 install -r requirements.txt`
